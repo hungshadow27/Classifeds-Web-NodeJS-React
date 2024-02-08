@@ -1,8 +1,8 @@
 import Slider from "../Slider/Slider";
 import CategoryMenu from "./CategoryMenu";
+import IntroduceCollapse from "./IntroduceCollapse";
+import ProductCard from "./ProductCard";
 import SubMenu from "./SubMenu";
-import { FaRegHeart } from "react-icons/fa";
-import { IoBagAdd } from "react-icons/io5";
 
 const Home = () => {
   const subMenuList = [
@@ -57,7 +57,7 @@ const Home = () => {
       name: "Đồ điện tử",
       image:
         "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F5000.png&w=256&q=95",
-      url: "#",
+      url: "mua-ban-do-dien-tu",
     },
     {
       id: 4,
@@ -181,7 +181,7 @@ const Home = () => {
     {
       id: 3,
       url: "#",
-      name: "Giày cũ",
+      name: "Xuc xich",
       image:
         "https://cdn.chotot.com/y9jt38EWeP3iUitgVhLzyNg17N1fpbSWiYGrqD6VrXw/preset:listing/plain/729606efedce56b38e225d44b7a75ade-2863772709115888604.jpg",
       price: 1200000,
@@ -221,76 +221,49 @@ const Home = () => {
   ];
   return (
     <>
-      <div className="w-full max-w-screen-lg mx-auto">
-        <div className="bg-blue-gray-50 p-3 mb-3">
-          <Slider />
-          <div className="flex overflow-x-auto gap-2 mt-3">
-            {subMenuList.map((item, index) => {
-              return <SubMenu key={index} menu={item} />;
-            })}
+      <div className="md:md:bg-background-tet bg-fixed">
+        <div className="w-full max-w-screen-lg mx-auto">
+          <div className="bg-white p-3 mb-3">
+            <Slider />
+            <div className="flex overflow-x-auto gap-2 mt-3">
+              {subMenuList.map((item, index) => {
+                return <SubMenu key={index} menu={item} />;
+              })}
+            </div>
           </div>
-        </div>
-        <div className="bg-blue-gray-50 p-3 pb-0">
-          <h2 className="text-lg font-semibold mb-3">Khám phá danh mục</h2>
-          <div className="flex flex-col h-[310px] items-start overflow-auto bg-blue-gray-50 flex-wrap">
-            {categoryList.map((item, index) => {
-              return <CategoryMenu key={index} category={item} />;
-            })}
+          <div className="bg-white p-3 pb-0">
+            <h2 className="text-lg font-semibold mb-3">Khám phá danh mục</h2>
+            <div className="flex flex-col h-[310px] items-start overflow-auto bg-white flex-wrap">
+              {categoryList.map((item, index) => {
+                return <CategoryMenu key={index} category={item} />;
+              })}
+            </div>
           </div>
-        </div>
-        <div className="bg-blue-gray-50 p-3 pb-0">
-          <h2 className="text-lg font-semibold mb-3">Chợ tốt có gì mới?</h2>
-          <div className="grid grid-cols-4 gap-4">
-            {bannerList.map((item, index) => {
-              return index === 0 ? (
-                <a href={item.url} className="col-span-4">
-                  <img src={item.image} alt="" className="w-full" />
-                </a>
-              ) : (
-                <a href={item.url} className="col-span-2">
-                  <img src={item.image} alt="" />
-                </a>
-              );
-            })}
+          <div className="bg-white p-3 pb-0">
+            <h2 className="text-lg font-semibold mb-3">Chợ tốt có gì mới?</h2>
+            <div className="grid grid-cols-4 gap-4 py-3">
+              {bannerList.map((item, index) => {
+                return index === 0 ? (
+                  <a key={index} href={item.url} className="col-span-4">
+                    <img src={item.image} alt="" className="w-full" />
+                  </a>
+                ) : (
+                  <a key={index} href={item.url} className="col-span-2">
+                    <img src={item.image} alt="" />
+                  </a>
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <div className="bg-blue-gray-50 p-3 pb-0">
-          <h2 className="text-lg font-semibold mb-3">Tin đăng mới</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5  gap-4">
-            {productList.map((item, index) => {
-              return (
-                <div>
-                  <div className="relative square-image-container">
-                    <a href={item.url}>
-                      <img src={item.image} alt="" className="square-image" />
-                    </a>
-                    <button className="absolute bottom-2 right-2">
-                      <FaRegHeart color="red" size="20px" />
-                    </button>
-                  </div>
-
-                  <a href={item.url}>{item.name}</a>
-                  <div>
-                    {item.price.toLocaleString("it-IT", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
-                  </div>
-                  <div className="flex items-center text-xs text-blue-gray-500">
-                    <span className="text-sm">
-                      <IoBagAdd />
-                    </span>
-                    <span className="mx-2">
-                      &#8231;
-                      {item.time}
-                      &#8231;
-                    </span>
-                    <span>{item.place}</span>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="bg-white p-3 pb-0 mt-3">
+            <h2 className="text-lg font-semibold mb-3">Tin đăng mới</h2>
+            <div className="grid grid-cols-2 md:grid-cols-5">
+              {productList.map((item, index) => {
+                return <ProductCard key={index} product={item} />;
+              })}
+            </div>
           </div>
+          <IntroduceCollapse />
         </div>
       </div>
     </>

@@ -1,31 +1,231 @@
 import { Link } from "react-router-dom";
-import logo from "./bechdo-logo.png";
-import { CiSearch } from "react-icons/ci";
 import { IoChatboxEllipsesOutline, IoMenuOutline } from "react-icons/io5";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { IoIosArrowDown, IoIosCloseCircleOutline } from "react-icons/io";
+import { HiOutlineComputerDesktop, HiOutlineSquares2X2 } from "react-icons/hi2";
+import { IoNotificationsOutline, IoBagHandleOutline } from "react-icons/io5";
+import { BsPostcard } from "react-icons/bs";
+import { VscAccount } from "react-icons/vsc";
+import { TfiPencilAlt } from "react-icons/tfi";
+import { CiSearch } from "react-icons/ci";
 
-const Header = () => {
+import { useState } from "react";
+import SearchBar from "./SearchBar";
+
+const Header = (props) => {
+  const { isMobile } = props;
+  const [tabNoti, setTabNoti] = useState(0);
+  const [isOpenTabPages, setOpenTabPages] = useState(false);
+
   return (
-    <>
-      <header className="sticky top-0 z-10">
-        <div className="bg-green-600 p-3">
-          <img className="w-48 block mx-auto mb-3" src={logo} alt="" />
-          <div className="flex justify-between items-center">
-            <div className="flex bg-white items-center px-1 py-1 w-4/5 rounded">
-              <CiSearch size="25px" color="grey" />
-              <input
-                className="w-full py-1 px-1"
-                placeholder="Search for items on Shadow Classifeds"
-                type="text"
-                name="search"
-              ></input>
-            </div>
-            <IoChatboxEllipsesOutline size="25px" />
-            <IoMenuOutline size="25px" />
-          </div>
-        </div>
-      </header>
-    </>
+    <header className="sticky top-0 z-20">
+      {isMobile
+        ? MobileHeader(isOpenTabPages, setOpenTabPages)
+        : DesktopHeader(tabNoti, setTabNoti)}
+    </header>
   );
 };
+const MobileHeader = ({ isOpenTabPages, setOpenTabPages }) => {
+  return (
+    <div className="bg-primary p-3">
+      <a href="#1" className="mb-3 flex items-center justify-center">
+        <img
+          className="object-contain mr-[-50px] h-[30px]"
+          src="https://static.chotot.com/storage/APP_WRAPPER/logo/chotot-logo-appwrapper.png"
+          alt=""
+        />
+      </a>
 
+      <div className="flex justify-between items-center">
+        <div className="flex bg-white items-center px-1 py-1 w-4/5 rounded">
+          <CiSearch size="25px" color="grey" />
+          <input
+            className="w-full py-1 px-1"
+            placeholder="Search for items on Shadow Classifeds"
+            type="text"
+            name="search"
+          ></input>
+        </div>
+        <a href="#1">
+          <IoChatboxEllipsesOutline size={25} />
+        </a>
+        <div className="relative">
+          <HiOutlineSquares2X2
+            size={25}
+            onClick={() => setOpenTabPages(!isOpenTabPages)}
+          />
+          {isOpenTabPages && (
+            <div className="absolute bg-white w-48 right-0 rounded">
+              <div>
+                <IoIosCloseCircleOutline
+                  size={25}
+                  onClick={() => setOpenTabPages(!isOpenTabPages)}
+                  className="inline"
+                />
+                <span className="text-sm font-bold">Chuyển trang</span>
+              </div>
+              <div className="p-3 text-blue-300">
+                <a href="#1">Trang web 1</a>
+                <br />
+                <a href="#1">Trang web 2</a>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+const DesktopHeader = ({ tabNoti, setTabNoti }) => {
+  return (
+    <div className="bg-primary py-3">
+      <div className="flex items-center justify-between w-full px-6">
+        <div className="flex w-[30%] max-w-[30%] justify-center items-center pe-3">
+          <img
+            className="w-36"
+            src="https://static.chotot.com/storage/APP_WRAPPER/logo/chotot-logo-appwrapper.png"
+            alt=""
+          />
+
+          <div className="menu-container cursor-pointer relative ">
+            <div className="hover:text-gray-400 flex flex-nowrap gap-2 items-center whitespace-nowrap">
+              <RxHamburgerMenu size={"20px"} />
+              <span>Danh mục</span> <IoIosArrowDown />
+            </div>
+            <ul className="bg-white rounded w-72 absolute bottom-[-80px] text-sm menu">
+              <a href="#1">
+                <li className="flex items-center justify-start gap-3 border-gray-400 border-b-[1px] p-2 hover:bg-gray-400">
+                  <HiOutlineComputerDesktop size={"25px"} />
+                  <span>Đồ điện tử</span>
+                </li>
+              </a>
+
+              <a href="#1">
+                <li className="flex items-center justify-start gap-3 border-gray-400 border-b-[1px] p-2 hover:bg-gray-400">
+                  <HiOutlineComputerDesktop size={"25px"} />
+                  <span>Đồ điện tử</span>
+                </li>
+              </a>
+            </ul>
+          </div>
+        </div>
+        <SearchBar />
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex gap-6">
+            <div className="relative menu-container">
+              <IoNotificationsOutline
+                size={23}
+                className="hover:text-gray-300"
+              />
+              <div className="absolute w-96 bg-white left-[-50px] rounded menu">
+                <div className="flex text-center border-b-[1px] border-gray-300">
+                  {tabNoti === 0 ? (
+                    <>
+                      <button
+                        className="rounded-tl-lg w-1/2 p-4 uppercase font-bold hover:bg-gray-300 border-b-4 border-orange-400"
+                        onClick={() => setTabNoti(0)}
+                      >
+                        Hoạt động
+                      </button>
+                      <button
+                        className="rounded-tr-lg w-1/2 p-4 uppercase font-bold hover:bg-gray-300"
+                        onClick={() => setTabNoti(1)}
+                      >
+                        Tin mới
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        className="rounded-tl-lg w-1/2 p-4 uppercase font-bold hover:bg-gray-300 "
+                        onClick={() => setTabNoti(0)}
+                      >
+                        Hoạt động
+                      </button>
+                      <button
+                        className="rounded-tr-lg w-1/2 p-4 uppercase font-bold hover:bg-gray-300 border-b-4 border-orange-400"
+                        onClick={() => setTabNoti(1)}
+                      >
+                        Tin mới
+                      </button>
+                    </>
+                  )}
+                </div>
+                <div className="p-3 text-center">
+                  {tabNoti === 0 ? (
+                    <>
+                      <div className="text-sm py-3">
+                        Vui lòng đăng nhập để xem danh sách hoạt động
+                      </div>
+                      <a href="/login" className="text-blue-700 font-bold">
+                        Đăng ký / Đăng nhập
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-sm py-3">
+                        Chúng tôi không có cập nhật nào. Vui lòng kiểm tra lại
+                        sau
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+            <a href="#1">
+              <IoChatboxEllipsesOutline
+                size={23}
+                className="hover:text-gray-300"
+              />
+            </a>
+            <div className="relative menu-container">
+              <IoBagHandleOutline size={23} className="hover:text-gray-300" />
+              <div className="absolute menu w-28 bg-white p-1 rounded">
+                <a href="#1" className="p-1 hover:text-gray-300">
+                  Đơn mua
+                </a>
+                <br />
+                <a href="#1" className="p-1  hover:text-gray-300">
+                  Đơn bán
+                </a>
+              </div>
+            </div>
+
+            <a
+              href="#1"
+              className="hover:text-gray-300 flex gap-2 items-center whitespace-nowrap"
+            >
+              <BsPostcard size={23} />
+              Quản lý tin
+            </a>
+            <div className="relative menu-container whitespace-nowrap">
+              <button className="hover:text-gray-300 flex gap-2 items-center">
+                <VscAccount size={23} />
+                Tài khoản
+                <IoIosArrowDown />
+              </button>
+              <div className="absolute menu bg-white rounded w-52 p-1 left-[-50px]">
+                <a href="/login" className="hover:text-gray-300 block">
+                  đăng nhập
+                </a>
+                <a href="#1" className="hover:text-gray-300 block">
+                  quản lý
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <a
+              href="#1"
+              className="bg-orange-600 px-4 py-2 uppercase font-bold flex text-white text-sm rounded gap-2 items-center whitespace-nowrap"
+            >
+              <TfiPencilAlt size={23} />
+              Đăng tin
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 export default Header;
