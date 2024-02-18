@@ -1,4 +1,3 @@
-import { Input, Checkbox } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import logo from "./logo.png";
 const Register = () => {
@@ -12,17 +11,10 @@ const Register = () => {
         />
         <h1 className="text-xl font-bold my-7">Đăng ký tài khoản</h1>
         <form action="">
-          <div className="mb-6">
-            <Input color="blue" label="Họ và tên" size="lg" />
-          </div>
-          <div className="mb-6">
-            <Input color="blue" label="Tài khoản" size="lg" />
-          </div>
-          <div className="mb-6">
-            <Input color="blue" label="Mật khẩu" size="lg" />
-          </div>
+          <div className="mb-6"></div>
+          <div className="mb-6"></div>
+          <div className="mb-6"></div>
           <div className="flex items-center text-sm">
-            <Checkbox defaultChecked color="amber" />
             <span>
               Bằng việc Đăng ký, bạn đã đọc và đồng ý với{" "}
               <a href="#1" className="text-blue-700">

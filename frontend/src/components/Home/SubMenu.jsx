@@ -6,7 +6,7 @@ const SubMenu = (props) => {
       className="min-w-[96px] w-[96px] flex flex-col items-center text-center"
     >
       <img className="w-9 h-9 mb-2" src={image} alt="" />
-      <div className="text-sm text-black font-medium">{name}</div>
+      <div className="text-sm text-black">{name}</div>
     </a>
   );
 };

@@ -10,7 +10,7 @@ const NavbarMobile = (props) => {
   return (
     <>
       {isMobile && (
-        <nav className="fixed bottom-0 z-10 w-full bg-white  shadow flex justify-between p-2 items-baseline px-4">
+        <nav className="fixed bottom-0 z-20 w-full bg-white  shadow flex justify-between p-2 items-baseline px-4">
           <NavLink
             to={"/"}
             className="flex flex-col gap-1 items-center"
@@ -33,7 +33,7 @@ const NavbarMobile = (props) => {
           </NavLink>
           <NavLink
             to={"/login"}
-            className="flex flex-col gap-1 items-center bg-yellow-700 p-3 rounded-full"
+            className="flex flex-col gap-1 items-center bg-yellow-500 p-3 rounded-full"
             style={({ isActive }) => ({
               color: isActive ? "orange" : "",
             })}

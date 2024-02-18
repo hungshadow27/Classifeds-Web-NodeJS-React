@@ -4,7 +4,7 @@ const IntroduceCollapse = () => {
   const [isOpen, setOpen] = useState(false);
   return (
     <>
-      <div className="bg-white p-3 my-3">
+      <div className="bg-white p-3">
         <h2 className="text-lg font-semibold mb-3">
           Chợ Tốt - Chợ Mua Bán, Rao Vặt Trực Tuyến Hàng Đầu Của Người Việt
         </h2>

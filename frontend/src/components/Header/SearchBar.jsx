@@ -8,10 +8,10 @@ const SearchBar = () => {
           type="text"
           name=""
           id=""
-          className="text-sm w-full focus:outline-none"
+          className="text-sm w-full border-none rounded-sm"
           placeholder="Tìm kiếm sản phẩm trên chợ tốt"
         />
-        <button className="bg-orange-600 w-12 rounded py-[2px]">
+        <button className="bg-orange-500 w-12 rounded py-[2px]">
           <CiSearch
             size="25px"
             color="white"

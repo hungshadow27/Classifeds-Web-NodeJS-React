@@ -39,7 +39,7 @@ const ProductCard = () => {
           &#8231; &nbsp;{product.place}
         </div>
       </div>
-      <button className="absolute bottom-3 right-8 z-10">
+      <button className="absolute bottom-9 right-8 md:bottom-3 z-10 hover:bg-orange-500 rounded-full">
         <FaRegHeart color="red" size={18} />
       </button>
     </a>

@@ -221,7 +221,7 @@ const Home = () => {
   ];
   return (
     <>
-      <div className="md:md:bg-background-tet bg-fixed">
+      <div className="md:bg-background-tet bg-fixed pb-3">
         <div className="w-full max-w-screen-lg mx-auto">
           <div className="bg-white p-3 mb-3">
             <Slider />
@@ -255,7 +255,7 @@ const Home = () => {
               })}
             </div>
           </div>
-          <div className="bg-white p-3 pb-0 mt-3">
+          <div className="bg-white p-3 pb-0 my-3">
             <h2 className="text-lg font-semibold mb-3">Tin đăng mới</h2>
             <div className="grid grid-cols-2 md:grid-cols-5">
               {productList.map((item, index) => {

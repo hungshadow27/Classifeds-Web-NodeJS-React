@@ -1,4 +1,3 @@
-import { Input } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import logo from "./logo.png";
 const Login = () => {
@@ -12,12 +11,8 @@ const Login = () => {
         />
         <h1 className="text-xl font-bold my-7">Đăng nhập</h1>
         <form action="">
-          <div className="mb-6">
-            <Input color="blue" label="Tài khoản" size="lg" />
-          </div>
-          <div className="mb-6">
-            <Input color="blue" label="Mật khẩu" size="lg" />
-          </div>
+          <div className="mb-6"></div>
+          <div className="mb-6"></div>
           <a href="#1" className="text-blue-500 text-sm">
             Quên mật khẩu?
           </a>
