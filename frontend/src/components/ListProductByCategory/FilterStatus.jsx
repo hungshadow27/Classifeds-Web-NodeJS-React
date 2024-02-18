@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import MenuToggleContainer from "../MenuToggle/MenuToggleContainer";
-import { CiFilter } from "react-icons/ci";
 import FilterButton from "./FilterButton";
 
 const FilterStatus = ({ filterValues, setFilterValues }) => {

@@ -52,11 +52,19 @@ const FilterCategory = ({
               <>
                 {currentCategory.child.map((item, index) => {
                   return (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between border-b-[1px] border-gray-100 p-3 cursor-pointer hover:bg-gray-100"
-                    >
-                      {item.name}
+                    <div key={index}>
+                      {currentChildCategory.name === item.name ? (
+                        <div className="flex items-center font-bold justify-between border-b-[1px] border-gray-100 p-3 cursor-pointer hover:bg-gray-100">
+                          {item.name}
+                        </div>
+                      ) : (
+                        <div
+                          onClick={() => setCurrentChildCategory(item)}
+                          className="flex items-center justify-between border-b-[1px] border-gray-100 p-3 cursor-pointer hover:bg-gray-100"
+                        >
+                          {item.name}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -72,13 +80,20 @@ const FilterCategory = ({
               <>
                 {categoryList.map((item, index) => {
                   return (
-                    <Link
-                      to={`/${item.slug}`}
-                      key={index}
-                      className="flex items-center justify-between border-b-[1px] border-gray-100 p-3 cursor-pointer hover:bg-gray-100"
-                    >
-                      {item.name}
-                    </Link>
+                    <div key={index}>
+                      {currentCategory.name === item.name ? (
+                        <div className="flex items-center justify-between font-bold border-b-[1px] border-gray-100 p-3 cursor-pointer hover:bg-gray-100">
+                          {item.name}
+                        </div>
+                      ) : (
+                        <Link
+                          to={`/${item.slug}`}
+                          className="flex items-center justify-between border-b-[1px] border-gray-100 p-3 cursor-pointer hover:bg-gray-100"
+                        >
+                          {item.name}
+                        </Link>
+                      )}
+                    </div>
                   );
                 })}
                 <div

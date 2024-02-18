@@ -21,7 +21,7 @@ const FilterAdvance = ({ filterValues, setFilterValues }) => {
       hasVideo: false,
       protectedPaying: false,
       shipCode: false,
-      postBy: "",
+      postBy: "Tất cả",
     }));
     setStatusSelected("");
     setPostBySelected("");

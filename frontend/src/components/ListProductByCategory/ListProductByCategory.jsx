@@ -12,6 +12,7 @@ import FilterPlace from "./FilterPlace";
 import FilterCategory from "./FilterCategory";
 import FilterPrice from "./FilterPrice";
 import FilterStatus from "./FilterStatus";
+import MenuToggleContainer from "../MenuToggle/MenuToggleContainer";
 
 const ListProductByCategory = ({ category }) => {
   const [filterValues, setFilterValues] = useState({
@@ -19,12 +20,20 @@ const ListProductByCategory = ({ category }) => {
     hasVideo: false,
     protectedPaying: false,
     shipCode: false,
-    postBy: "",
+    postBy: "Tất cả",
   });
   const [filterPlace, setFilterPlace] = useState("Toàn quốc");
   const [currentChildCategory, setCurrentChildCategory] = useState(
-    category.child[0].name
+    category.child[0]
   );
+  const [filterPrice, setFilterPrice] = useState({ start: "", end: "" });
+
+  const [orderBy, setOrderBy] = useState("Tin mới trước");
+  const handleOrderBy = (orderBy) => {
+    setOrderBy(orderBy);
+  };
+  const listPostBy = ["Tất cả", "Cá nhân", "Bán chuyên"];
+  const listOrderBy = ["Tin mới trước", "Giá thấp trước", "Giá cao trước"];
   return (
     <div className="bg-gray-200">
       <div className="bg-white">
@@ -43,7 +52,10 @@ const ListProductByCategory = ({ category }) => {
               currentChildCategory={currentChildCategory}
               setCurrentChildCategory={setCurrentChildCategory}
             />
-            <FilterPrice />
+            <FilterPrice
+              filterPrice={filterPrice}
+              setFilterPrice={setFilterPrice}
+            />
             <div
               onClick={() => {
                 setFilterValues((prevState) => ({
@@ -100,41 +112,100 @@ const ListProductByCategory = ({ category }) => {
           </div>
         </div>
         <div className="text-sm bg-white py-3 px-5 mt-2 rounded flex gap-9 overflow-auto whitespace-nowrap">
-          <CategoryIcon
-            img="https://static.chotot.com/storage/c2cCategories/5010.svg"
-            name="Điện thoại"
-            url="#1"
-          />
-          <CategoryIcon
-            img="https://static.chotot.com/storage/c2cCategories/5010.svg"
-            name="Điện thoại"
-            url="#1"
-          />
-          <CategoryIcon
-            img="https://static.chotot.com/storage/c2cCategories/5010.svg"
-            name="Điện thoại"
-            url="#1"
-          />
-          <CategoryIcon
-            img="https://static.chotot.com/storage/c2cCategories/5010.svg"
-            name="Điện thoại"
-            url="#1"
-          />
+          {category.child.slice(1).map((item, index) => {
+            return (
+              <div key={index}>
+                {item.name === currentChildCategory.name ? (
+                  <div>
+                    <CategoryIcon
+                      img="https://static.chotot.com/storage/c2cCategories/5010.svg"
+                      name={item.name}
+                      onClick={() => setCurrentChildCategory(category.child[0])}
+                      isActive={true}
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <CategoryIcon
+                      img="https://static.chotot.com/storage/c2cCategories/5010.svg"
+                      name={item.name}
+                      onClick={() => setCurrentChildCategory(item)}
+                      isActive={false}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
         <div className="text-sm bg-white mt-2 rounded flex justify-between items-center">
           <div className="flex items-center">
-            <button className="px-3 py-4 font-bold text-orange-600 border-b-4 border-orange-200">
-              Tất cả
-            </button>
-            <button className="px-3 py-4 ">Cá nhân</button>
-            <button className="px-3 py-4 ">Bán chuyên</button>
+            {listPostBy.map((item, index) => {
+              return (
+                <div key={index}>
+                  {item === filterValues.postBy ? (
+                    <button className="px-3 py-4 font-bold text-orange-600 border-b-4 border-orange-200 hover:bg-orange-100">
+                      {item}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        setFilterValues((prevState) => ({
+                          ...prevState,
+                          postBy: item,
+                        }))
+                      }
+                      className="px-3 py-4 hover:bg-gray-100"
+                    >
+                      {item}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
           </div>
           <div className="flex items-center me-3 gap-2">
-            <FilterButton
-              name="Tin mới trước"
-              hasArrow={true}
-              isActive={true}
-            ></FilterButton>
+            <MenuToggleContainer
+              title={
+                <FilterButton
+                  name={orderBy}
+                  hasArrow={true}
+                  isActive={true}
+                ></FilterButton>
+              }
+            >
+              <div className="w-[200px] p-1 shadow-lg rounded">
+                <div className="text-center text-base font-bold">
+                  Sắp xếp theo
+                </div>
+                <div className="mt-3">
+                  <div className="text-start">
+                    <form className="flex flex-col p-1">
+                      {listOrderBy.map((item, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="flex items-center justify-between border-b-[1px] border-gray-100 p-2"
+                          >
+                            <label htmlFor={item}>{item}</label>
+                            <input
+                              checked={item === orderBy}
+                              id={item}
+                              type="radio"
+                              value={item}
+                              onChange={() => handleOrderBy(item)}
+                              name="default-radio"
+                              className="w-5 h-5 text-orange-500 bg-gray-100 border-gray-300 focus:ring-orange-500"
+                            />
+                          </div>
+                        );
+                      })}
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </MenuToggleContainer>
+
             <PiSquaresFourLight size={28} />
           </div>
         </div>
