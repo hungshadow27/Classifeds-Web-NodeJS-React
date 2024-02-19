@@ -13,8 +13,36 @@ import FilterCategory from "./FilterCategory";
 import FilterPrice from "./FilterPrice";
 import FilterStatus from "./FilterStatus";
 import MenuToggleContainer from "../MenuToggle/MenuToggleContainer";
+import { useParams } from "react-router-dom";
 
-const ListProductByCategory = ({ category }) => {
+const ListProductByCategory = () => {
+  const categoryList = [
+    {
+      id: 0,
+      name: "Đồ điện tử",
+      slug: "mua-ban-do-dien-tu",
+      child: [
+        { id: 0, name: "Tất cả đồ điện tử" },
+        { id: 1, name: "Điện thoại" },
+        { id: 2, name: "Máy tính" },
+      ],
+    },
+    {
+      id: 1,
+      name: "Thú cưng",
+      slug: "mua-ban-thu-cung",
+      child: [
+        { id: 0, name: "Tất cả thú cưng" },
+        { id: 1, name: "Chó" },
+        { id: 2, name: "Mèo" },
+      ],
+    },
+  ];
+
+  let { category } = useParams();
+  const currentCategory = categoryList.find((item) => item.slug === category);
+  console.log(currentCategory);
+  console.log(category);
   const [filterValues, setFilterValues] = useState({
     status: "",
     hasVideo: false,
@@ -24,7 +52,7 @@ const ListProductByCategory = ({ category }) => {
   });
   const [filterPlace, setFilterPlace] = useState("Toàn quốc");
   const [currentChildCategory, setCurrentChildCategory] = useState(
-    category.child[0]
+    currentCategory.child[0]
   );
   const [filterPrice, setFilterPrice] = useState({ start: "", end: "" });
 
@@ -48,7 +76,7 @@ const ListProductByCategory = ({ category }) => {
               setFilterPlace={setFilterPlace}
             />
             <FilterCategory
-              currentCategory={category}
+              currentCategory={currentCategory}
               currentChildCategory={currentChildCategory}
               setCurrentChildCategory={setCurrentChildCategory}
             />
@@ -112,7 +140,7 @@ const ListProductByCategory = ({ category }) => {
           </div>
         </div>
         <div className="text-sm bg-white py-3 px-5 mt-2 rounded flex gap-9 overflow-auto whitespace-nowrap">
-          {category.child.slice(1).map((item, index) => {
+          {currentCategory.child.slice(1).map((item, index) => {
             return (
               <div key={index}>
                 {item.name === currentChildCategory.name ? (
@@ -120,7 +148,9 @@ const ListProductByCategory = ({ category }) => {
                     <CategoryIcon
                       img="https://static.chotot.com/storage/c2cCategories/5010.svg"
                       name={item.name}
-                      onClick={() => setCurrentChildCategory(category.child[0])}
+                      onClick={() =>
+                        setCurrentChildCategory(currentCategory.child[0])
+                      }
                       isActive={true}
                     />
                   </div>
