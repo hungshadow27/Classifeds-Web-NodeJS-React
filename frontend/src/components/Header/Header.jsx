@@ -11,6 +11,7 @@ import { CiSearch } from "react-icons/ci";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
 import MenuToggleContainer from "../MenuToggle/MenuToggleContainer";
+import { Link } from "react-router-dom";
 
 const Header = (props) => {
   const { isMobile } = props;
@@ -96,12 +97,12 @@ const OrdersMenuContent = () => {
 const AccountMenuContent = () => {
   return (
     <div className="w-24">
-      <a href="/login" className="hover:text-gray-300 block">
+      <Link to="/login" className="hover:text-gray-300 block">
         đăng nhập
-      </a>
-      <a href="#1" className="hover:text-gray-300 block">
+      </Link>
+      <Link to="#1" className="hover:text-gray-300 block">
         quản lý
-      </a>
+      </Link>
     </div>
   );
 };
@@ -127,13 +128,13 @@ const MobileHeader = () => {
   const [isOpenTabPages, setOpenTabPages] = useState(false);
   return (
     <div className="bg-primary p-3">
-      <a href="#1" className="mb-3 flex items-center justify-center">
+      <Link to="/" className="mb-3 flex items-center justify-center">
         <img
           className="object-contain mr-[-50px] h-[30px]"
           src="https://static.chotot.com/storage/APP_WRAPPER/logo/chotot-logo-appwrapper.png"
           alt=""
         />
-      </a>
+      </Link>
 
       <div className="flex justify-between items-center">
         <div className="flex bg-white items-center px-1 py-1 w-4/5 rounded">
@@ -180,11 +181,14 @@ const DesktopHeader = () => {
     <div className="bg-primary py-3">
       <div className="flex items-center justify-between w-full px-6">
         <div className="flex w-[30%] max-w-[30%] justify-center items-center pe-3">
-          <img
-            className="w-36"
-            src="https://static.chotot.com/storage/APP_WRAPPER/logo/chotot-logo-appwrapper.png"
-            alt=""
-          />
+          <Link to="/">
+            <img
+              className="w-36"
+              src="https://static.chotot.com/storage/APP_WRAPPER/logo/chotot-logo-appwrapper.png"
+              alt=""
+            />
+          </Link>
+
           <MenuToggleContainer
             title={
               <div className="hover:text-gray-400 flex flex-nowrap gap-2 items-center whitespace-nowrap">

@@ -3,7 +3,7 @@ import { BsPostcard } from "react-icons/bs";
 import { TfiPencilAlt } from "react-icons/tfi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const NavbarMobile = (props) => {
   const { isMobile } = props;

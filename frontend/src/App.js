@@ -1,13 +1,26 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import "./App.css";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
-import Home from "./components/Home/Home";
 import Login from "./components/Entrance/Login";
 import Register from "./components/Entrance/Register";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavbarMobile from "./components/NavbarMobile/NavbarMobile";
-import ListProductByCategory from "./components/ListProductByCategory/ListProductByCategory";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Root from "./components/Root/Root";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
+import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
+const Home = lazy(() => wait().then(() => import("./components/Home/Home")));
+const ListProductByCategory = lazy(() =>
+  wait().then(() =>
+    import("./components/ListProductByCategory/ListProductByCategory")
+  )
+);
+const ProductDetail = lazy(() =>
+  wait().then(() => import("./components/ProductDetail/ProductDetail"))
+);
+const UserPage = lazy(() =>
+  wait().then(() => import("./components/UserPage/UserPage"))
+);
+const RatingUserPage = lazy(() =>
+  wait().then(() => import("./components/RatingUserPage/RatingUserPage"))
+);
 
 function App() {
   const [windowSize, setWindowSize] = useState({
@@ -35,31 +48,54 @@ function App() {
       setMobile(false);
     }
   }, [windowSize]);
-  return (
-    <Router>
-      <div className="page-container">
-        <Routes>
-          <Route path="*" element={<AppLayout isMobile={isMobile} />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </div>
-    </Router>
-  );
-}
+  let router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Root isMobile={isMobile} />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: "category/:categorySlug",
+          element: <ListProductByCategory />,
+        },
+        {
+          path: "product/:productId",
+          element: <ProductDetail isMoble={isMobile} />,
+        },
+        {
+          path: "user/:userId",
+          element: <UserPage isMoble={isMobile} />,
+        },
+        {
+          path: "user/:userId/rating",
+          element: <RatingUserPage isMoble={isMobile} />,
+        },
+      ],
+    },
+    {
+      path: "login",
+      element: <Login />,
+    },
+    {
+      path: "register",
+      element: <Register />,
+    },
+  ]);
 
-function AppLayout({ isMobile }) {
   return (
-    <>
-      <Header isMobile={isMobile} />
-      <NavbarMobile isMobile={isMobile} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path=":category" element={<ListProductByCategory />} />
-      </Routes>
-      <Footer />
-    </>
+    <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
   );
 }
+const wait = () => {
+  return new Promise((res) => {
+    setTimeout(() => {
+      res();
+    }, 500);
+  });
+};
 
 export default App;

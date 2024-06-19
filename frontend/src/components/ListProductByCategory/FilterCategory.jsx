@@ -87,7 +87,7 @@ const FilterCategory = ({
                         </div>
                       ) : (
                         <Link
-                          to={`/${item.slug}`}
+                          to={`/category/${item.slug}`}
                           className="flex items-center justify-between border-b-[1px] border-gray-100 p-3 cursor-pointer hover:bg-gray-100"
                         >
                           {item.name}

@@ -1,23 +1,18 @@
 import { FaRegHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const ProductCard = () => {
-  const product = {
-    url: "#1",
-    name: "iPhone 14 Plus quốc tế zin all",
-    image:
-      "https://cdn.chotot.com/tLrU3xcuPeaA8jaxo3t2EqfHa1g05GQ5e7atjYZRt6s/preset:listing/plain/ec9bfc7b526b9b51d23c687cf3374189-2864504747172930463.webp",
-    price: 13500000,
-    shop: "Lâm mobile",
-    time: "1 phút trước",
-    place: "Hà Nội",
-  };
+const ProductCard = ({ product }) => {
   return (
-    <a
-      href={product.url}
+    <Link
+      to={`/product/${product.id}`}
       className="flex px-3 py-2 gap-4 items-start bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:z-10 mb-[1px] relative overflow-hidden"
     >
       <div>
-        <img src={product.image} alt="" className="min-w-32 w-32" />
+        <img
+          src={product.image}
+          alt=""
+          className="min-w-32 w-32 h-32 object-cover"
+        />
       </div>
       <div>
         <span className="text-ellipsis overflow-hidden">{product.name}</span>
@@ -42,7 +37,7 @@ const ProductCard = () => {
       <button className="absolute bottom-9 right-8 md:bottom-3 z-10 hover:bg-orange-500 rounded-full">
         <FaRegHeart color="red" size={18} />
       </button>
-    </a>
+    </Link>
   );
 };
 
