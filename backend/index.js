@@ -5,7 +5,10 @@ const mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+
 const productRoute = require("./routes/product");
+const userRoute = require("./routes/user");
+const categoryRoute = require("./routes/category");
 
 dotenv.config();
 //connect database
@@ -27,6 +30,8 @@ app.get("/api", (req, res) => {
 
 //Routes
 app.use("/v1/product", productRoute);
+app.use("/v1/user", userRoute);
+app.use("/v1/category", categoryRoute);
 
 app.listen(8000, () => {
   console.log("Server is running...");

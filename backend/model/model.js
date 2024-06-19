@@ -18,11 +18,6 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     contactInfo: {
-      email: {
-        type: String,
-        required: true,
-        trim: true,
-      },
       phone: {
         type: String,
         trim: true,
@@ -45,7 +40,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
+let User = mongoose.model("User", userSchema);
 
 const productSchema = new mongoose.Schema(
   {
@@ -82,14 +77,6 @@ const productSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
   },
   {
     timestamps: true, // This will automatically add `createdAt` and `updatedAt` fields
@@ -110,20 +97,12 @@ const categorySchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
   },
   {
     timestamps: true, // This will automatically add `createdAt` and `updatedAt` fields
   }
 );
 
-const Category = mongoose.model("Category", categorySchema);
+let Category = mongoose.model("Category", categorySchema);
 
-module.exports = { Product, User };
+module.exports = { Product, User, Category };
