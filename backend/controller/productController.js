@@ -1,4 +1,5 @@
-const { Product, User } = require("../model/model.js");
+const Product = require("../model/ProductModel");
+const User = require("../model/UserModel");
 
 const productController = {
   //Add Product
@@ -30,6 +31,27 @@ const productController = {
         "category",
       ]);
       res.status(200).json(product);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  updateProduct: async (req, res) => {
+    try {
+      const product = await Product.findById(req.params.id);
+      await product.updateOne({ $set: req.body });
+      res.status(200).json("updated successfully!");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  deleteProduct: async (req, res) => {
+    try {
+      await User.updateMany(
+        { products: req.params.id },
+        { $pull: { products: req.params.id } }
+      );
+      await Product.findByIdAndDelete(req.params.id);
+      res.status(200).json("deleted successfully!");
     } catch (error) {
       res.status(500).json(error);
     }
