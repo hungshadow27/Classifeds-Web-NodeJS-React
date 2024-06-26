@@ -1,8 +1,10 @@
+import { useEffect, useRef, useState } from "react";
 import Slider from "../Slider/Slider";
 import CategoryMenu from "./CategoryMenu";
 import IntroduceCollapse from "./IntroduceCollapse";
 import ProductCard from "./ProductCard";
 import SubMenu from "./SubMenu";
+import axios from "axios";
 const subMenuList = [
   {
     image:
@@ -35,126 +37,7 @@ const subMenuList = [
     name: "Tin đăng cho tặng",
   },
 ];
-const categoryList = [
-  {
-    id: 1,
-    name: "Bất động sản",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F1000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 2,
-    name: "Xe cộ",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F2000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 3,
-    name: "Đồ điện tử",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F5000.png&w=256&q=95",
-    url: "mua-ban-do-dien-tu",
-  },
-  {
-    id: 4,
-    name: "Đồ gia dụng, nội thất, cây cảnh",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F14000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 5,
-    name: "Giải trí, thể thao, sở thích",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F4000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 6,
-    name: "Thời trang, đồ dùng cá nhân",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F3000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 7,
-    name: "Tủ lạnh, máy lạnh, máy giặt",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F9000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 8,
-    name: "Đồ ăn thực phẩm",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F7000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 9,
-    name: "Thú cưng",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F12000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 9,
-    name: "Thú cưng",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F12000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 9,
-    name: "Thú cưng",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F12000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 9,
-    name: "Thú cưng",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F12000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 9,
-    name: "Thú cưng",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F12000.png&w=256&q=95",
-    url: "#",
-  },
-  {
-    id: 9,
-    name: "Thú cưng",
-    image:
-      "https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F12000.png&w=256&q=95",
-    url: "#",
-  },
-];
-const bannerList = [
-  {
-    id: 1,
-    image:
-      "https://cdn.chotot.com/admincentre/L-0BzzzssVkS1_CeqkJff-kZ9CdPEZTq3ZHXY4Tm1SM/preset:raw/plain/ed7a163922bdcd68ae058f5b10153cca-2862449191143559944.jpg",
-    url: "#",
-  },
-  {
-    id: 2,
-    image:
-      "https://cdn.chotot.com/admincentre/8QV4y_SoeF1Je4LTI6gzRbX2u0SJOsHl4eKe-VAxHVo/preset:raw/plain/348113ce94fe12816a36cdacd64141c5-2861345876585237174.jpg",
-    url: "#",
-  },
-  {
-    id: 3,
-    image:
-      "https://cdn.chotot.com/admincentre/aSGLsopmSpE9C-cOt57Kxgrr4XdHi6x9HTI66asUGyQ/preset:raw/plain/4607d9ea1e5e95616b080e9ed9c751bf-2862621424316852321.jpg",
-    url: "#",
-  },
-];
+
 const productList = [
   {
     id: 1,
@@ -218,6 +101,44 @@ const productList = [
   },
 ];
 const Home = () => {
+  const [bannerList, setBannerList] = useState([
+    {
+      id: 1,
+      image:
+        "https://cdn.chotot.com/admincentre/L-0BzzzssVkS1_CeqkJff-kZ9CdPEZTq3ZHXY4Tm1SM/preset:raw/plain/ed7a163922bdcd68ae058f5b10153cca-2862449191143559944.jpg",
+      url: "#",
+    },
+    {
+      id: 2,
+      image:
+        "https://cdn.chotot.com/admincentre/8QV4y_SoeF1Je4LTI6gzRbX2u0SJOsHl4eKe-VAxHVo/preset:raw/plain/348113ce94fe12816a36cdacd64141c5-2861345876585237174.jpg",
+      url: "#",
+    },
+    {
+      id: 3,
+      image:
+        "https://cdn.chotot.com/admincentre/aSGLsopmSpE9C-cOt57Kxgrr4XdHi6x9HTI66asUGyQ/preset:raw/plain/4607d9ea1e5e95616b080e9ed9c751bf-2862621424316852321.jpg",
+      url: "#",
+    },
+  ]);
+  const [categoryList, setCategoryList] = useState([]);
+  const isCategoryFetched = useRef(false);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/v1/category");
+      setCategoryList(response.data);
+      isCategoryFetched.current = true;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    if (!isCategoryFetched.current) {
+      fetchData();
+    }
+    console.log(categoryList);
+  }, [categoryList]); // Include categoryList if you need to react to changes in categoryList
+
   return (
     <>
       <div className="md:bg-background-tet bg-fixed pb-3">

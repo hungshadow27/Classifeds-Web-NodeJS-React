@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const categorySchema = new mongoose.Schema(
+const childCategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -9,7 +9,7 @@ const categorySchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
-      default: "category description",
+      default: "",
     },
     image: {
       type: String,
@@ -21,10 +21,10 @@ const categorySchema = new mongoose.Schema(
       trim: true,
       default: "",
     },
-    childs: [
+    category: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ChildCategory",
+        ref: "Category",
       },
     ],
   },
@@ -33,6 +33,6 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-let Category = mongoose.model("Category", categorySchema);
+let ChildCategory = mongoose.model("ChildCategory", childCategorySchema);
 
-module.exports = Category;
+module.exports = ChildCategory;

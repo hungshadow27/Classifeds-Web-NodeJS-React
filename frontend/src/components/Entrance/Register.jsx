@@ -1,9 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "./logo.png";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 const Register = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const newUser = {
+      username: username,
+      password: password,
+      rePassword: rePassword,
+    };
+  };
+
   return (
     <main className="h-screen md:pt-32 bg-background-login bg-contain">
-      <div className="p-3 bg-white md:w-[440px] md:h-[640px] md:mx-auto md:shadow-lg md:rounded">
+      <div className="p-3 bg-white md:w-[440px]  md:mx-auto md:shadow-lg md:rounded">
         <img
           className="w-32 block md:mx-auto"
           src="https://static.chotot.com/storage/marketplace/logo.png"
@@ -11,9 +28,51 @@ const Register = () => {
         />
         <h1 className="text-xl font-bold my-7">Đăng ký tài khoản</h1>
         <form action="">
-          <div className="mb-6"></div>
-          <div className="mb-6"></div>
-          <div className="mb-6"></div>
+          <div className="mb-6">
+            <label
+              for="first_name"
+              class="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Tài khoản
+            </label>
+            <input
+              type="text"
+              id="first_name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              for="password1"
+              class="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Mật khẩu
+            </label>
+            <input
+              type="password"
+              id="password1"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              for="password2"
+              class="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Nhập lại mật khẩu
+            </label>
+            <input
+              type="password"
+              id="password2"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+              onChange={(e) => setRePassword(e.target.value)}
+            />
+          </div>
           <div className="flex items-center text-sm">
             <span>
               Bằng việc Đăng ký, bạn đã đọc và đồng ý với{" "}

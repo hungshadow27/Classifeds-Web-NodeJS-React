@@ -11,6 +11,7 @@ const productRoute = require("./routes/product");
 const userRoute = require("./routes/user");
 const categoryRoute = require("./routes/category");
 const authRoute = require("./routes/auth");
+const childCategoryRoute = require("./routes/childCategory");
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(cookieParser());
 app.use("/v1/product", productRoute);
 app.use("/v1/user", userRoute);
 app.use("/v1/category", categoryRoute);
+app.use("/v1/childcategory", childCategoryRoute);
 app.use("/v1/auth", authRoute);
 
 app.listen(8000, () => {

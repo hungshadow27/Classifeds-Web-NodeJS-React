@@ -1,18 +1,63 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "./logo.png";
+import { useState } from "react";
+import { loginUser } from "../../redux/apiRequest";
+import { useDispatch } from "react-redux";
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const newUser = {
+      username: username,
+      password: password,
+    };
+    loginUser(newUser, dispatch, navigate);
+  };
   return (
     <main className="h-screen md:pt-32 bg-background-login bg-contain">
-      <div className="p-3 bg-white md:w-[440px] md:h-[640px] md:mx-auto md:shadow-lg md:rounded">
+      <div className="p-3 bg-white md:w-[440px] md:mx-auto md:shadow-lg md:rounded">
         <img
           className="w-32 block md:mx-auto"
           src="https://static.chotot.com/storage/marketplace/logo.png"
           alt=""
         />
         <h1 className="text-xl font-bold my-7">Đăng nhập</h1>
-        <form action="">
-          <div className="mb-6"></div>
-          <div className="mb-6"></div>
+        <form action="" onSubmit={handleLogin}>
+          <div className="mb-6">
+            <label
+              for="first_name"
+              class="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Tài khoản
+            </label>
+            <input
+              type="text"
+              id="first_name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              for="password"
+              class="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Mật khẩu
+            </label>
+            <input
+              type="password"
+              id="password"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="•••••••••"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
           <a href="#1" className="text-blue-500 text-sm">
             Quên mật khẩu?
           </a>

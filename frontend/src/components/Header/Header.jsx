@@ -12,13 +12,14 @@ import { useState } from "react";
 import SearchBar from "./SearchBar";
 import MenuToggleContainer from "../MenuToggle/MenuToggleContainer";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = (props) => {
   const { isMobile } = props;
-
+  const user = useSelector((state) => state.auth.login?.currentUser);
   return (
     <header className="sticky top-0 z-50">
-      {isMobile ? MobileHeader() : DesktopHeader()}
+      {isMobile ? MobileHeader() : DesktopHeader(user)}
     </header>
   );
 };
@@ -176,7 +177,7 @@ const MobileHeader = () => {
     </div>
   );
 };
-const DesktopHeader = () => {
+const DesktopHeader = (user) => {
   return (
     <div className="bg-primary py-3">
       <div className="flex items-center justify-between w-full px-6">
@@ -236,17 +237,31 @@ const DesktopHeader = () => {
               <BsPostcard size={23} />
               Quản lý tin
             </a>
-            <MenuToggleContainer
-              title={
-                <button className="hover:text-gray-300 flex gap-2 items-center whitespace-nowrap">
-                  <VscAccount size={23} />
-                  Tài khoản
-                  <IoIosArrowDown />
-                </button>
-              }
-            >
-              {AccountMenuContent()}
-            </MenuToggleContainer>
+            {user ? (
+              <MenuToggleContainer
+                title={
+                  <button className="hover:text-gray-300 flex gap-2 items-center whitespace-nowrap">
+                    <VscAccount size={23} />
+                    {user?.username}
+                    <IoIosArrowDown />
+                  </button>
+                }
+              >
+                {AccountMenuContent()}
+              </MenuToggleContainer>
+            ) : (
+              <MenuToggleContainer
+                title={
+                  <button className="hover:text-gray-300 flex gap-2 items-center whitespace-nowrap">
+                    <VscAccount size={23} />
+                    Tài khoản
+                    <IoIosArrowDown />
+                  </button>
+                }
+              >
+                {AccountMenuContent()}
+              </MenuToggleContainer>
+            )}
           </div>
           <div>
             <a
