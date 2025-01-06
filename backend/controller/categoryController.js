@@ -27,6 +27,22 @@ const categoryController = {
       res.status(500).json(error);
     }
   },
+  getACategoryBySlug: async (req, res) => {
+    const { slug } = req.params;
+    if (!slug) {
+      return res.status(400).json({ error: "Slug parameter is required" });
+    }
+
+    // Fetch category by slug (adjust database query as needed)
+    Category.findOne({ slug: slug })
+      .then((category) => {
+        if (!category) {
+          return res.status(404).json({ error: "Category not found" });
+        }
+        res.status(200).json(category);
+      })
+      .catch((err) => res.status(500).json({ error: err.message }));
+  },
 };
 
 module.exports = categoryController;

@@ -4,6 +4,7 @@ import CategoryMenu from "./CategoryMenu";
 import IntroduceCollapse from "./IntroduceCollapse";
 import ProductCard from "./ProductCard";
 import SubMenu from "./SubMenu";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import axios from "axios";
 const subMenuList = [
   {
@@ -100,7 +101,7 @@ const productList = [
     place: "An Giang",
   },
 ];
-const Home = () => {
+const Home = ({ categoryList }) => {
   const [bannerList, setBannerList] = useState([
     {
       id: 1,
@@ -121,27 +122,28 @@ const Home = () => {
       url: "#",
     },
   ]);
-  const [categoryList, setCategoryList] = useState([]);
-  const isCategoryFetched = useRef(false);
-  const fetchData = async () => {
+  const [isLoading, setLoading] = useState(false);
+
+  const [latestProducts, setLatestProducts] = useState([]);
+  const fetchLatestProducts = async () => {
     try {
-      const response = await axios.get("/v1/category");
-      setCategoryList(response.data);
-      isCategoryFetched.current = true;
-    } catch (err) {
-      console.log(err);
+      setLoading(true);
+      const response = await axios.get("/v1/product/latest");
+      setLatestProducts(response.data);
+      console.log(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
-    if (!isCategoryFetched.current) {
-      fetchData();
-    }
-    console.log(categoryList);
-  }, [categoryList]); // Include categoryList if you need to react to changes in categoryList
+    fetchLatestProducts();
+  }, []);
 
   return (
     <>
       <div className="md:bg-background-tet bg-fixed pb-3">
+        {isLoading && <LoadingSpinner />}
         <div className="w-full max-w-screen-lg mx-auto">
           <div className="bg-white p-3 mb-3">
             <Slider />
@@ -154,7 +156,7 @@ const Home = () => {
           <div className="bg-white p-3 pb-0">
             <h2 className="text-lg font-semibold mb-3">Khám phá danh mục</h2>
             <div className="flex flex-col h-[310px] items-start overflow-auto bg-white flex-wrap">
-              {categoryList.map((item, index) => {
+              {categoryList?.map((item, index) => {
                 return <CategoryMenu key={index} category={item} />;
               })}
             </div>
@@ -178,7 +180,7 @@ const Home = () => {
           <div className="bg-white p-3 pb-0 my-3">
             <h2 className="text-lg font-semibold mb-3">Tin đăng mới</h2>
             <div className="grid grid-cols-2 md:grid-cols-5">
-              {productList.map((item, index) => {
+              {latestProducts.map((item, index) => {
                 return <ProductCard key={index} product={item} />;
               })}
             </div>

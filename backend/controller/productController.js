@@ -35,6 +35,37 @@ const productController = {
       res.status(500).json(error);
     }
   },
+  getProductsByCategory: async (req, res) => {
+    const { category } = req.params; // Trích xuất category slug từ URL
+    if (!category) {
+      return res.status(400).json({ error: "Category parameter is required" });
+    }
+    try {
+      // Tìm tất cả sản phẩm và populate thông tin category
+      const products = await Product.find().populate([
+        {
+          path: "category", // Populate trường category (ObjectId)
+          match: { slug: category }, // Lọc category theo slug
+        },
+        { path: "seller" },
+      ]);
+
+      // Lọc lại các sản phẩm chỉ có category.slug trùng với category
+      const filteredProducts = products.filter((product) => product.category);
+
+      return res.status(200).json(filteredProducts);
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
+  getLatestProducts: async (req, res) => {
+    try {
+      const products = await Product.find().sort({ x: -1 }).limit(15);
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
   updateProduct: async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);

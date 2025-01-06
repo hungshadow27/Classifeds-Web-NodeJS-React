@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "../ListProductByCategory/Breadcrumb";
 import SliderImage from "./SliderImage";
 import { FaStar } from "react-icons/fa";
@@ -8,39 +8,45 @@ import { PiChatsDuotone } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
 import { FaCommentSms } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import axios from "axios";
 
 const ProductDetail = ({ isMoble }) => {
-  const slides = [
-    {
-      url: "https://cdn.chotot.com/nGYTtFs2eR5G4hrrwwxq2qND11PXMhuO5PXcUXySB18/preset:view/plain/70ad4e9fe825d5d82bfa120d3ecb5347-2866443247620799620.jpg",
-      title: "beach",
-    },
-    {
-      url: "https://cdn.chotot.com/CwQI9g0ge5PIZw3nwGwn8TqXhCscknaeDZIOCyHttVE/preset:view/plain/769d8bb87512e7b924aea71230ba2461-2866443248062910482.jpg",
-      title: "boat",
-    },
-    {
-      url: "https://cdn.chotot.com/sUpwc0tsdKXhkhR7_C8F26HSjekocbSXDS7br4QWdyg/preset:view/plain/8e712562cf72d88ca8f03d0f768da411-2866443247879808927.jpg",
-      title: "forest",
-    },
-    {
-      url: "https://cdn.chotot.com/8GIReCm7XSWlvDBngsSH4YRYrvKVWyBOLWiT-CDkd0k/preset:view/plain/86ed026cc1b5b6005c1a17256fccbdb5-2866443247158493429.jpg",
-      title: "city",
-    },
-    {
-      url: "https://cdn.chotot.com/7p7jK3I5kt_o9_2XH5XYNxVY_E4TpapDjW910kr4pGc/preset:view/plain/f59a40e2804f8ce1184703b0629822ac-2866443247455671745.jpg",
-      title: "italy",
-    },
-  ];
   const containerStyles = {
     with: "100%",
     maxWidth: "600px",
     height: "450px",
     margin: "0 auto",
   };
+  const [isLoading, setLoading] = useState(false);
+  const [product, setProduct] = useState({});
+  let { productId } = useParams();
+  const [productImages, setProductImages] = useState([{ url: "", title: "" }]);
+  const FetchDatas = async () => {
+    try {
+      setLoading(true);
+      const productResponse = await axios.get(`/v1/product/${productId}`);
+      setProduct(productResponse.data);
+      console.log(productResponse.data);
+      setProductImages(
+        productResponse.data?.image.map((url) => ({
+          url,
+          title: "Image",
+        }))
+      );
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    FetchDatas();
+  }, []);
   return (
     <div className="bg-gray-200 pb-3">
+      {isLoading && <LoadingSpinner />}
       <div className="bg-white border-x-[1px] border-b-[1px] border-gray-300 p-3 w-full max-w-screen-lg mx-auto">
         <div className="pb-6">
           <Breadcrumb first="Chợ tốt" second="Iphone" />
@@ -48,30 +54,31 @@ const ProductDetail = ({ isMoble }) => {
         <div className="flex gap-3">
           <div className="w-full md:w-2/3">
             <div style={containerStyles}>
-              <SliderImage slides={slides} />
+              <SliderImage slides={productImages} />
             </div>
             <div className="py-4 space-y-3">
-              <div className="font-bold ">Iphone 15</div>
+              <div className="font-bold ">{product?.name}</div>
               <div className="text-red-700 flex justify-between items-center ">
-                <span className="font-bold">19.000.000 đ</span>
+                <span className="font-bold">
+                  {product?.price?.toLocaleString("it-IT", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
                 <button className="flex items-center gap-1 border-[1px] border-red-700 py-1 px-2 rounded-3xl text-sm transition-colors ease-in-out duration-300 hover:bg-red-700 hover:text-white">
                   <span>Lưu tin</span>
                   <FaRegHeart size={20} />
                 </button>
               </div>
-              <div className="">
-                Còn bảo hành được kiểm tra và có thương lượng Máy fullbox , sài
-                đc vài tháng nên còn mới , muốn đổi đời máy nên bán cho ai cần ,
-                pin 99% , ib zalo để biết thêm chi tiết :***
-              </div>
+              <div className="">{product?.description}</div>
               <button className="text-blue-800 underline">
-                Nhấn để hiện số: 0909***
+                Nhấn để hiện số: {product?.seller?.contactInfo?.phone}***
               </button>
               <div>
                 <div className="font-bold text-gray-500 mb-1">Khu vực</div>
                 <div className="flex items-center gap-2">
                   <CiLocationOn size={25} />
-                  <span>Phường Xuân Tân, Thành phố Long Khánh, Đồng Nai</span>
+                  <span>{product?.seller?.contactInfo?.location}</span>
                 </div>
               </div>
               <div>
@@ -160,15 +167,15 @@ const ProductDetail = ({ isMoble }) => {
                 <div>
                   <img
                     className="w-14 h-14 rounded-full shadow"
-                    src="https://cdn.chotot.com/uac2/20754901"
+                    src="https://graph.facebook.com/v2.8/1752812548381774/picture?type=large"
                     alt=""
                   />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <span className="font-medium">Anh thư</span>
+                    <span className="font-medium">{product?.seller?.name}</span>
                     <Link
-                      to="/user/0"
+                      to={`/user/${product?.seller?._id}`}
                       className="py-1 px-4 border-[1px] border-gray-300 rounded text-sm hover:bg-gray-200"
                     >
                       Xem trang

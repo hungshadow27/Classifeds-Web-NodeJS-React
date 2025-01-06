@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "../ListProductByCategory/Breadcrumb";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaStar } from "react-icons/fa";
@@ -9,7 +9,8 @@ import MenuToggleContainer from "../MenuToggle/MenuToggleContainer";
 import { PiShareFat } from "react-icons/pi";
 import { IoFlagOutline } from "react-icons/io5";
 import ProductCard from "../Home/ProductCard";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 const productList = [
   {
     id: 3,
@@ -44,25 +45,46 @@ const productList = [
 ];
 const UserPage = () => {
   const [tabProduct, setTabProduct] = useState(0);
+  const [isLoading, setLoading] = useState(false);
+  let { userId } = useParams();
+  const [user, setUser] = useState({});
+  const FetchDatas = async () => {
+    try {
+      setLoading(true);
+      const userResponse = await axios.get(`/v1/user/${userId}`);
+      setUser(userResponse.data);
+      console.log(userResponse.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    FetchDatas();
+  }, []);
   return (
     <div className="bg-gray-100 pb-3 overflow-hidden">
       <div className="p-3 w-full max-w-screen-lg mx-auto">
         <div className="pb-6">
-          <Breadcrumb first="Chợ tốt" second="Trang cá nhân của Anh Thư" />
+          <Breadcrumb
+            first="Chợ tốt"
+            second={`Trang cá nhân của ${user?.name}`}
+          />
         </div>
         <div className="grid grid-cols-3 gap-3 items-start">
           <div className="col-span-3 md:col-span-1 rounded-lg border-[1px] border-gray-200 bg-white">
             <div className="relative">
               <img
                 className="w-full h-44 md:h-28 object-cover rounded-t-lg"
-                src="https://cdn.chotot.com/nGYTtFs2eR5G4hrrwwxq2qND11PXMhuO5PXcUXySB18/preset:view/plain/70ad4e9fe825d5d82bfa120d3ecb5347-2866443247620799620.jpg"
+                src="https://graph.facebook.com/v2.8/1752812548381774/picture?type=large"
                 alt=""
               />
               <div className="absolute -bottom-12 left-4">
                 <div className="relative">
                   <img
                     className="w-24 h-24 rounded-full border-2 border-white shadow-md"
-                    src="https://cdn.chotot.com/uac2/20754901"
+                    src="https://graph.facebook.com/v2.8/1752812548381774/picture?type=large"
                     alt=""
                   />
                   <span className="absolute bottom-1 right-2 border-2 border-white rounded-full w-4 h-4 bg-green-500"></span>
@@ -87,7 +109,7 @@ const UserPage = () => {
                 </MenuToggleContainer>
               </div>
               <div className="mt-12 space-y-3">
-                <span className="text-lg font-bold">Anh Thư</span>
+                <span className="text-lg font-bold">{user?.name}</span>
                 <div className="flex items-center gap-2">
                   <span className="font-bold">5.0</span>
                   <div className="flex items-center gap-1">
@@ -131,7 +153,7 @@ const UserPage = () => {
                   <span className="flex-1">
                     Địa chỉ:{" "}
                     <span className="text-black">
-                      Xã Nhân Nghĩa Huyện Cẩm Mỹ Việt Nam
+                      {user?.contactInfo?.location}
                     </span>
                   </span>
                 </div>
@@ -161,7 +183,7 @@ const UserPage = () => {
               <div className="p-3 min-h-[356px]">
                 {tabProduct === 0 ? (
                   <div className="grid grid-cols-2 md:grid-cols-3">
-                    {productList.map((item, index) => {
+                    {user?.products?.map((item, index) => {
                       return <ProductCard key={index} product={item} />;
                     })}
                   </div>

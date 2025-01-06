@@ -6,4 +6,5 @@ const router = require("express").Router();
 router.post("/", categoryController.addCategory);
 router.get("/", categoryController.getAllCategories);
 router.get("/:id", categoryController.getACategory);
+router.get("/slug/:slug", categoryController.getACategoryBySlug); // Route cho slug
 module.exports = router;

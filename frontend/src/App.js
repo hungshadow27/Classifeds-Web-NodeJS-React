@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./components/Root/Root";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import LoadingSpinner from "./components/LoadingSpinner/LoadingSpinner";
+import axios from "axios";
+
 const Home = lazy(() => wait().then(() => import("./components/Home/Home")));
 const ListProductByCategory = lazy(() =>
   wait().then(() =>
@@ -28,6 +30,19 @@ function App() {
     height: undefined,
   });
   const [isMobile, setMobile] = useState(false);
+
+  const [categoryList, setCategoryList] = useState();
+  const fetchCategoryList = async () => {
+    try {
+      const response = await axios.get("/v1/category");
+      setCategoryList(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchCategoryList();
+  }, []);
 
   useEffect(() => {
     const handleSize = () => {
@@ -56,7 +71,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <Home />,
+          element: <Home categoryList={categoryList} />,
         },
         {
           path: "category/:categorySlug",

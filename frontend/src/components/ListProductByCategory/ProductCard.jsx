@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 const ProductCard = ({ product }) => {
   return (
     <Link
-      to={`/product/${product.id}`}
+      to={`/product/${product._id}`}
       className="flex px-3 py-2 gap-4 items-start bg-white hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] hover:z-10 mb-[1px] relative overflow-hidden"
     >
       <div>
         <img
-          src={product.image}
+          src={product.image[0]}
           alt=""
           className="min-w-32 w-32 h-32 object-cover"
         />
@@ -28,10 +28,10 @@ const ProductCard = ({ product }) => {
             src="https://static.chotot.com/storage/chotot-icons/svg/user.svg"
             alt=""
           />
-          <span>Hung Shadow</span>
+          <span>{product.seller.name}</span>
           &nbsp; &#8231;
-          {product.time}
-          &#8231; &nbsp;{product.place}
+          {product.createdAt}
+          &#8231; &nbsp;{product.seller.contactInfo.location}
         </div>
       </div>
       <button className="absolute bottom-9 right-8 md:bottom-3 z-10 hover:bg-orange-500 rounded-full">
